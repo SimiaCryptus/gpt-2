@@ -23,6 +23,8 @@ def top_k_logits(logits, k):
 
 
 def sample_sequence(*, hparams, length, start_token=None, batch_size=None, context=None, temperature=1, top_k=0):
+    print('start_token: ' + str(start_token))
+    print('batch_size: ' + str(batch_size))
     if start_token is None:
         assert context is not None, 'Specify exactly one of start_token and context!'
     else:
@@ -30,11 +32,15 @@ def sample_sequence(*, hparams, length, start_token=None, batch_size=None, conte
         context = tf.fill([batch_size, 1], start_token)
 
     def step(hparams, tokens, past=None):
+        print('Pasts: ' + str(past))
+        print('Tokens: ' + str(tokens))
         lm_output = model.model(hparams=hparams, X=tokens, past=past, reuse=tf.AUTO_REUSE)
-
         logits = lm_output['logits'][:, :, :hparams.n_vocab]
         presents = lm_output['present']
-        presents.set_shape(model.past_shape(hparams=hparams, batch_size=batch_size))
+        presents_shape = model.past_shape(hparams=hparams, batch_size=batch_size)
+        presents.set_shape(presents_shape)
+        print('Presents: ' + str(presents))
+        print('Presents Shape: ' + str(presents_shape))
         return {
             'logits': logits,
             'presents': presents,
@@ -59,7 +65,16 @@ def sample_sequence(*, hparams, length, start_token=None, batch_size=None, conte
 
         def cond(*args):
             return True
-
+        print('loop_vars: ' + str([
+            context_output['presents'],
+            context[:, -1],
+            context
+        ]))
+        print('shape_invariants: ' + str([
+            tf.TensorShape(model.past_shape(hparams=hparams, batch_size=batch_size)),
+            tf.TensorShape([batch_size]),
+            tf.TensorShape([batch_size, None])
+        ]))
         _, _, tokens = tf.while_loop(
             cond=cond, body=body,
             maximum_iterations=length,
