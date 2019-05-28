@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 
-import fire
 import json
 import os
+
+import fire
 import numpy as np
 import tensorflow as tf
 
 import model
 
+
 def export_model(
-    model_name='345M',
-    seed=None
+        model_name='345M',
+        seed=None
 ):
     """
     Load the model and save it as a single archive
@@ -33,7 +35,7 @@ def export_model(
             presents = lm_output['present']
             presents_shape = model.past_shape(hparams=hparams, batch_size=None)
             presents.set_shape(presents_shape)
-            #presents = tf.concat([None, presents], axis=-2)
+            # presents = tf.concat([None, presents], axis=-2)
             tf.io.write_graph(
                 tf.graph_util.convert_variables_to_constants(
                     sess,
@@ -85,4 +87,3 @@ def export_model(
 
 if __name__ == '__main__':
     fire.Fire(export_model)
-

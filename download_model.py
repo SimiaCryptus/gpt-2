@@ -1,5 +1,6 @@
 import os
 import sys
+
 import requests
 from tqdm import tqdm
 
@@ -12,9 +13,10 @@ model = sys.argv[1]
 subdir = os.path.join('models', model)
 if not os.path.exists(subdir):
     os.makedirs(subdir)
-subdir = subdir.replace('\\','/') # needed for Windows
+subdir = subdir.replace('\\', '/')  # needed for Windows
 
-for filename in ['checkpoint','encoder.json','hparams.json','model.ckpt.data-00000-of-00001', 'model.ckpt.index', 'model.ckpt.meta', 'vocab.bpe']:
+for filename in ['checkpoint', 'encoder.json', 'hparams.json', 'model.ckpt.data-00000-of-00001', 'model.ckpt.index',
+                 'model.ckpt.meta', 'vocab.bpe']:
 
     r = requests.get("https://storage.googleapis.com/gpt-2/" + subdir + "/" + filename, stream=True)
 
