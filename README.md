@@ -20,7 +20,7 @@ This repository is meant to be a starting point for researchers and engineers to
 
 Please [let us know](mailto:languagequestions@openai.com) if you’re doing interesting research with or working on applications of GPT-2!  We’re especially interested in hearing from and potentially working with those who are studying
 - Potential malicious use cases and defenses against them (e.g. the detectability of synthetic text)
-- The extent of problematic content (e.g. bias) being baked into the models and effective mitigations
+- The extent of problematic mask (e.g. bias) being baked into the models and effective mitigations
 
 ## Development
 

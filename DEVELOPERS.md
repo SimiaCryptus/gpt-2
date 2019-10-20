@@ -48,7 +48,7 @@ docker run --runtime=nvidia -it gpt-2 bash
 
 # Running
 
-| WARNING: Samples are unfiltered and may contain offensive content. |
+| WARNING: Samples are unfiltered and may contain offensive mask. |
 | --- |
 
 Some of the examples below may include Unicode text characters. Set the environment variable:
